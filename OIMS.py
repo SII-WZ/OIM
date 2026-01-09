@@ -6,32 +6,45 @@ import os
 import matplotlib.pyplot as plt
 import copy
 import random
-def add_sq_turn(num1,num2,data):
 
-    result=(data[num1]/2+data[num2]/2)*(data[num1]/2+data[num2]/2)
-    return result
-def add_sq_turn3(num1,num2,num3,data):
 
-    result=(data[num1]/3+data[num2]/3+data[num3]/3)*(data[num1]/3+data[num2]/3+data[num3]/3)
-    return result
-def add_turn(num1,num2,data):
+def dirichlet_weighted_sq(num1, num2, data, weights=None):
 
-    result=data[num1]/2+data[num2]/2
-    return result
-def add_turn3(num1,num2,num3,data):
 
-    result=data[num1]/3+data[num2]/3+data[num3]/3
-    return result
+    weighted_sum = data[num1] * weights[0] + data[num2] * weights[1]
 
+
+    return weighted_sum ** 2
+
+
+def dirichlet_weighted_sq3(num1, num2, num3, data, weights=None):
+
+
+    weighted_sum = data[num1] * weights[0] + data[num2] * weights[1] + data[num3] * weights[2]
+
+    return weighted_sum ** 2
+
+
+def dirichlet_weighted(num1, num2, data, weights=None):
+
+
+    return data[num1] * weights[0] + data[num2] * weights[1]
+
+
+def dirichlet_weighted3(num1, num2, num3, data, weights=None):
+
+
+
+    return data[num1] * weights[0] + data[num2] * weights[1] + data[num3] * weights[2]
 
 
 
 choose_num=200      #the number of all photo
-mix_nuw=3# the number of mix photo
+mix_nuw=2# the number of mix photo
 sq=0
 
 
-load_path="D:\\OIMS\\"
+load_path="D:\zw\image_enhance\cifiar10_sq\\"
 
 
 y=np.load(load_path+"pattern.npy")
@@ -52,19 +65,21 @@ conca_x = []
 
 for i in range(choose_num):
 
-    for o in range(10):
+    for o in range(20):
         num1 = random.randint(0, choose_num-1)
         num2 = random.randint(0, choose_num-1)
 
         if mix_nuw==2:
-            x_new = add_sq_turn(i, num1, sq_x)
-            y_new = add_turn(i, num1, y)
+            weights = np.random.dirichlet([5,5])
+            x_new = dirichlet_weighted_sq(i, num1, sq_x,weights)
+            y_new = dirichlet_weighted(i, num1, y,weights)
             conca_y.append((np.array(copy.deepcopy(y_new))))
             conca_x.append((np.array(copy.deepcopy(x_new))))
 
         if mix_nuw==3:
-            x_new = add_sq_turn3(i, num1, num2, sq_x)
-            y_new = add_turn3(i, num1, num2, y)
+            weights = np.random.dirichlet([5,5,5])
+            x_new = dirichlet_weighted_sq3(i, num1, num2, sq_x,weights)
+            y_new = dirichlet_weighted3(i, num1, num2, y,weights)
             conca_y.append((np.array(copy.deepcopy(y_new))))
             conca_x.append((np.array(copy.deepcopy(x_new))))
 
