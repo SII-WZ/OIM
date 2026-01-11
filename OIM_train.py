@@ -30,11 +30,11 @@ print("begin")
 def createCNN(outsize, input_shape):
     model_input = Input(shape=input_shape)
 
-    x = Conv2D(16, kernel_size=(3, 3), activation='relu')(model_input)
+    x = Conv2D(32, kernel_size=(3, 3), activation='relu')(model_input)
     x = BatchNormalization(axis=-1)(x)
     x = Dropout(0.4)(x) #
 
-    x = Conv2D(16, kernel_size=(3, 3), strides=2, activation='relu')(x)
+    x = Conv2D(32, kernel_size=(3, 3), strides=2, activation='relu')(x)
     x = BatchNormalization(axis=-1)(x)
     x = Dropout(0.4)(x)
 
@@ -166,8 +166,8 @@ oims=1 #1 is use oims 0 is without oims
 load_path="D:\\OIMS\\"
 y_meta=np.load(load_path+"y.npy")/255
 x_meta=np.load(load_path+"x.npy")
-y_train = np.load( load_path+'conca_x_3bit.npy')
-x_train = np.load(load_path+"conca_y_3bit.npy")
+y_train = np.load( load_path+'conca_y_3bit.npy')/255
+x_train = np.load(load_path+"conca_x_3bit.npy")
 y_test = y_meta[-100:,]
 x_test = x_meta[-100:,]
 y_train_01 = y_meta[:200,]
@@ -240,3 +240,4 @@ for i in range(len(accyout)):
     sh.write(i+1, 0, 1*accyout[int(i)])
 
 wk.save(load_path+"model_oims.xls")
+
