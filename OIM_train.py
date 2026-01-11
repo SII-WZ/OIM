@@ -205,7 +205,7 @@ if oims==1:
     print("work  on OMIS")
     print(x_train.shape)
     model.fit(x_train, y_train, batch_size=32, epochs=200,callbacks=get_callbacks(),   validation_data=(x_test, y_test))  #pretrain
-    model.fit(x_train_01, y_train_01, batch_size=32, epochs=2000, callbacks=get_callbacks(),               #finetune
+    model.fit(x_train_01, y_train_01, batch_size=32, epochs=100, callbacks=get_callbacks(),               #finetune
                validation_data=(x_test, y_test))
 else :
     print("work on no OMIS")
@@ -240,4 +240,5 @@ for i in range(len(accyout)):
     sh.write(i+1, 0, 1*accyout[int(i)])
 
 wk.save(load_path+"model_oims.xls")
+
 
